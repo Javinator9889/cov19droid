@@ -81,5 +81,8 @@ vcs.xml
 lint/intermediates/
 lint/generated/
 lint/outputs/
+
+# node modules
+node_modules/
 lint/tmp/
 # lint/reports/

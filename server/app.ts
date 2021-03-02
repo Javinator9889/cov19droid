@@ -1,14 +1,15 @@
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+import * as path from 'path';
+import * as logger from 'morgan';
+import * as express from 'express';
+import * as createError from 'http-errors';
+import * as cookieParser from 'cookie-parser';
 
 const indexRouter = require('./routes');
 const usersRouter = require('./routes/users');
 
 const app = express();
 
-app.use(logger('dev'));
+app.use(logger('combined'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -17,4 +18,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-module.exports = app;
+// catch 404 errors and forward to error handler
+app.use((req, res, next) => next(createError(404)));
+
+app.use((err, req, res, next) => {
+  res.locals.message = err.message;
+  res.locals.error = res.app.get('env') === 'development' ? err : {};
+
+  res.status(err.status || 500);
+  res.render('error');
+})
+
+export = app;
