@@ -17,4 +17,4 @@ router.get('/api/v1', async (req, res, next) => {
 
 router.get('/api/v1', undefined);
 
-export = router
+export = router;
